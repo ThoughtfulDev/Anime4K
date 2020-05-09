@@ -117,7 +117,7 @@ def FHDMenu(shader_dir):
 def lowerFHDMenu(shader_dir):
     pass
 
-def shader(fn, width, height, shader, ten_bit, outname, type):
+def shader(fn, width, height, shader, ten_bit, outname):
     clear()
     files = []
     if os.path.isdir(fn):   
@@ -126,23 +126,23 @@ def shader(fn, width, height, shader, ten_bit, outname, type):
             files.append(os.path.join(fn, file))
 
 
-    '''cg_menu = TerminalMenu(
+    cg_menu = TerminalMenu(
         ["CPU (only x264 4:4:4) - needs to be converted to x265 later with ffmpeg", 
         "GPU (NVENC HEVC/X265 - may result in lower quality than CPU) - NVIDIA ONLY - no conversation necessary" 
         ],
         title="Choose what to use when encoding after applying shaders."
     )
-    cg_choice = cg_menu.show()'''
-    if type == "cpu":
+    cg_choice = cg_menu.show()
+    if cg_choice == 0:
         cpu_shader(fn, width, height, shader, ten_bit, outname, files=files)
-    elif type == "gpu":
+    elif cg_choice == 1:
         gpu_shader(fn, width, height, shader, ten_bit, outname)
     else:
         print("Cancel")
         sys.exit(-2)
 
 
-def gpu_shader(fn, width, height, shader, ten_bit, outname):
+def gpu_shader(fn, width, height, shader, ten_bit, outname, files=[]):
     clear()
     if ten_bit:
         print("File is 10Bit")
@@ -152,7 +152,10 @@ def gpu_shader(fn, width, height, shader, ten_bit, outname):
         format = "yuv420p"    
     
     #detect width and height of video.
-    _m = MediaInfo.parse(fn)
+    if len(files) == 0:
+        _m = MediaInfo.parse(fn)
+    else:
+        _m = MediaInfo.parse(files[0])
     track_width = -1
     for t in _m.tracks:
         if t.track_type == 'Video':
@@ -170,23 +173,46 @@ def gpu_shader(fn, width, height, shader, ten_bit, outname):
     import time
     time.sleep(3)
     clear()
-    subprocess.call([
-        "mpv",
-        "--vf=format=" + format,
-        fn,
-        "--profile=gpu-hq",
-        "--scale=ewa_lanczossharp",
-        "--cscale=ewa_lanczossharp",
-        "--video-sync=display-resample",
-        "--interpolation",
-        "--tscale=oversample",
-        '--vf=gpu=w=' + str(width) + ':h=' + str(height),
-        "--glsl-shaders=" + str_shaders,
-        "--ovc=hevc_nvenc",
-        '--ovcopts=rc=constqp:preset=1:profile=main10:rc-lookahead=32:qp=24',
-        '--no-audio',
-        '--o=' + outname
-    ])
+
+    if len(files) == 0:
+        subprocess.call([
+            "mpv",
+            "--vf=format=" + format,
+            fn,
+            "--profile=gpu-hq",
+            "--scale=ewa_lanczossharp",
+            "--cscale=ewa_lanczossharp",
+            "--video-sync=display-resample",
+            "--interpolation",
+            "--tscale=oversample",
+            '--vf=gpu=w=' + str(width) + ':h=' + str(height),
+            "--glsl-shaders=" + str_shaders,
+            "--ovc=hevc_nvenc",
+            '--ovcopts=rc=constqp:preset=1:profile=main10:rc-lookahead=32:qp=24',
+            '--no-audio',
+            '--o=' + outname
+        ])
+    else:
+        i = 0
+        for f in files:
+            subprocess.call([
+                "mpv",
+                "--vf=format=" + format,
+                f,
+                "--profile=gpu-hq",
+                "--scale=ewa_lanczossharp",
+                "--cscale=ewa_lanczossharp",
+                "--video-sync=display-resample",
+                "--interpolation",
+                "--tscale=oversample",
+                '--vf=gpu=w=' + str(width) + ':h=' + str(height),
+                "--glsl-shaders=" + str_shaders,
+                "--ovc=hevc_nvenc",
+                '--ovcopts=rc=constqp:preset=1:profile=main10:rc-lookahead=32:qp=24',
+                '--no-audio',
+                '--o=' + os.path.join(outname, "shader_{0}.mkv".format(i))
+            ])
+            i = i + 1       
 
 def cpu_shader(fn, width, height, shader, ten_bit, outname, files=[]):
     clear()
@@ -268,7 +294,7 @@ def cpu_shader(fn, width, height, shader, ten_bit, outname, files=[]):
                 '--vf=gpu=w=' + str(width) + ':h=' + str(height),
                 "--glsl-shaders=" + str_shaders,
                 "--ovc=libx264",
-                '--ovcopts=preset=' + x264_preset + ':level=6.1:crf=' + str(crf) + ':aq-mode=3:psy-rd=1.0:bf=6',
+                '--ovcopts=preset=' + x264_preset + ':level=6.1:crf=' + str(crf) + ':aq-mode=3:psy-rd=1.0:bf=8',
                 '--no-audio',
                 '--o=' + os.path.join(outname, "shader_{0}.mkv".format(i))
             ])  

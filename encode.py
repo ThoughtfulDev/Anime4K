@@ -31,6 +31,7 @@ def encode_to_hevc(fn, out):
 
     cmd = [
     "ffmpeg",
+    "-hide_banner",
     "-i",
     fn,
     "-c:v",

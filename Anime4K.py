@@ -30,7 +30,6 @@ parser.add_argument("-bit", "--bit", required=False, type=str2bool, nargs='?',co
 parser.add_argument("-i", "--file", required=True, help="The input file")
 parser.add_argument("-o", "--output", required=False, help="Output filename/directory")
 parser.add_argument("-sz", "--split_length", required=False, type=int, default=10, help="Seconds to split the video in")
-parser.add_argument("-t", "--type", required=False, help="Shader device cpu/gpu(nvenc)", default="cpu")
 
 args = vars(parser.parse_args())
 fn = args['file']
@@ -52,7 +51,7 @@ elif mode == "subs":
 elif mode == "mux":
     mux(fn, outname)
 elif mode == "shader":
-    shader(fn, args['width'], args['height'], args['shader_dir'], args['bit'], outname, type=args['type'])
+    shader(fn, args['width'], args['height'], args['shader_dir'], args['bit'], outname)
 elif mode == "encode":
     encode_to_hevc(fn, outname)
 elif mode == "split":

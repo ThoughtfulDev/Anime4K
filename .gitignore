@@ -2,7 +2,8 @@ venv/
 venv
 shaders
 shaders/
-
+DATA/
+DATA
 
 
 # Byte-compiled / optimized / DLL files
