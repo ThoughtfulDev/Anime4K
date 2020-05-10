@@ -1,5 +1,6 @@
 
 Denoise_Bilateral_Mode = "Anime4K_3.0_Denoise_Bilateral_Mode.glsl"
+Denoise_Bilateral_Median = "Anime4K_3.1_Denoise_Bilateral_Median.glsl"
 
 DarkLines_VeryFast = "Anime4K_3.0_DarkLines_VeryFast.glsl"
 DarkLines_Fast = "Anime4K_3.0_DarkLines_Fast.glsl"

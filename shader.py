@@ -21,11 +21,20 @@ def FHDMenu(shader_dir):
 
     quality_menu = TerminalMenu(
         [
-            "Fast", "Medium", "Make my CPU and GPU hurt"
+            "Fast", "Medium", "Make my GPU hurt"
         ],
         title="Choose a Quality preset for encoding. This will influence the shaders used but no the encoding preset itself."
     )
     quality_choice = quality_menu.show()
+
+    bilateral_menu = TerminalMenu(["Mode (not so heavy)", "[Recommended] Median (heavier)"], title="Please choose your Bilateral Denoise Mode")
+    bilateral_choice = bilateral_menu.show()
+    if bilateral_choice == 0:
+        Denoise_Bilateral = Denoise_Bilateral_Mode
+    elif bilateral_choice == 1:
+        Denoise_Bilateral = Denoise_Bilateral_Median
+    else:
+        Denoise_Bilateral = Denoise_Bilateral_Mode
 
 
     if mode_choice == None or quality_choice == None:
@@ -35,12 +44,12 @@ def FHDMenu(shader_dir):
     #low quality
     if quality_choice == 0:
         if mode_choice == 0:
-            s = os.path.join(shader_dir, Denoise_Bilateral_Mode)
+            s = os.path.join(shader_dir, Denoise_Bilateral)
             s = s + ":"
             s = s + os.path.join(shader_dir, Upscale_CNN_M_x2_Deblur)
             return s
         elif mode_choice == 1:
-            s = os.path.join(shader_dir, Denoise_Bilateral_Mode)
+            s = os.path.join(shader_dir, Denoise_Bilateral)
             s = s + ":"
             s = s + os.path.join(shader_dir, DarkLines_VeryFast)
             s = s + ":"
@@ -49,7 +58,7 @@ def FHDMenu(shader_dir):
             s = s + os.path.join(shader_dir, Upscale_CNN_M_x2_Deblur)
             return s
         elif mode_choice == 2:
-            s = os.path.join(shader_dir, Denoise_Bilateral_Mode)
+            s = os.path.join(shader_dir, Denoise_Bilateral)
             s = s + ":"
             s = s + os.path.join(shader_dir, Deblur_DoG)
             s = s + ":"
@@ -62,12 +71,12 @@ def FHDMenu(shader_dir):
     # medium
     elif quality_choice == 1:
         if mode_choice == 0:
-            s = os.path.join(shader_dir, Denoise_Bilateral_Mode)
+            s = os.path.join(shader_dir, Denoise_Bilateral)
             s = s + ":"
             s = s + os.path.join(shader_dir, Upscale_CNN_L_x2_Deblur)
             return s
         elif mode_choice == 1:
-            s = os.path.join(shader_dir, Denoise_Bilateral_Mode)
+            s = os.path.join(shader_dir, Denoise_Bilateral)
             s = s + ":"
             s = s + os.path.join(shader_dir, DarkLines_Fast)
             s = s + ":"
@@ -76,7 +85,7 @@ def FHDMenu(shader_dir):
             s = s + os.path.join(shader_dir, Upscale_CNN_L_x2_Deblur)
             return s
         elif mode_choice == 2:
-            s = os.path.join(shader_dir, Denoise_Bilateral_Mode)
+            s = os.path.join(shader_dir, Denoise_Bilateral)
             s = s + ":"
             s = s + os.path.join(shader_dir, Deblur_DoG)
             s = s + ":"
@@ -89,12 +98,12 @@ def FHDMenu(shader_dir):
     #eat your gpu
     elif quality_choice == 2:
         if mode_choice == 0:
-            s = os.path.join(shader_dir, Denoise_Bilateral_Mode)
+            s = os.path.join(shader_dir, Denoise_Bilateral)
             s = s + ":"
             s = s + os.path.join(shader_dir, Upscale_CNN_UL_x2_Deblur)
             return s
         elif mode_choice == 1:
-            s = os.path.join(shader_dir, Denoise_Bilateral_Mode)
+            s = os.path.join(shader_dir, Denoise_Bilateral)
             s = s + ":"
             s = s + os.path.join(shader_dir, DarkLines_HQ)
             s = s + ":"
@@ -103,7 +112,7 @@ def FHDMenu(shader_dir):
             s = s + os.path.join(shader_dir, Upscale_CNN_UL_x2_Deblur)
             return s
         elif mode_choice == 2:
-            s = os.path.join(shader_dir, Denoise_Bilateral_Mode)
+            s = os.path.join(shader_dir, Denoise_Bilateral)
             s = s + ":"
             s = s + os.path.join(shader_dir, Deblur_DoG)
             s = s + ":"
