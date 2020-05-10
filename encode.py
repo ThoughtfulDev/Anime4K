@@ -1,5 +1,7 @@
 import subprocess
 from simple_term_menu import TerminalMenu
+from utils import is_tool
+
 
 
 def encode_to_hevc(fn, out):
@@ -28,9 +30,14 @@ def encode_to_hevc(fn, out):
         param_line = "crf=16.0:limit-sao=1:bframes=8:aq-mode=3:psy-rd=1.5:psy-rdoq=3.5"
     
     
+    
+    if is_tool("ffmpeg-bar"):
+        binary = "ffmpeg-bar"
+    else:
+        binary = "ffmpeg"
 
     cmd = [
-    "ffmpeg",
+    binary,
     "-hide_banner",
     "-i",
     fn,
