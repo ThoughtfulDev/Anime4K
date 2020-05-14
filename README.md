@@ -30,7 +30,7 @@ Put them all into one folder for example called *shaders*
 
 Assuming your Anime Movie/Episode is called *input.mkv* and has a resolution of 1920x1080.
 Now you want to upscale it to 4K (3840x2160).
-Here is the commands you would run.
+Here are the commands you would run.
 
 1. Encode the Video (to x264 and upscale it using the shader with the first Option [CPU])
 ```
