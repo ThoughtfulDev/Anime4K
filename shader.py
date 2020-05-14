@@ -124,7 +124,128 @@ def FHDMenu(shader_dir):
             return s
 
 def lowerFHDMenu(shader_dir):
-    pass
+    mode_menu = TerminalMenu(
+        ["Remain as faithful to the original while enhancing details", 
+        "Improve perceptual quality", 
+        "Improve perceptual quality + deblur"
+        ],
+        title="Choose your Option for 480/720p Videos"
+    )
+    mode_choice = mode_menu.show()
+
+
+    quality_menu = TerminalMenu(
+        [
+            "Fast", "Medium", "Make my GPU hurt"
+        ],
+        title="Choose a Quality preset for encoding. This will influence the shaders used but no the encoding preset itself."
+    )
+    quality_choice = quality_menu.show()
+
+
+    if mode_choice == None or quality_choice == None:
+        print("Canceling")
+        sys.exit(-1)
+
+    #low quality
+    if quality_choice == 0:
+        if mode_choice == 0:
+            s = os.path.join(shader_dir, Upscale_CNN_M_x2_Denoise)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, Auto_Downscale_Pre_x4)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, Upscale_CNN_M_x2_Deblur)
+            return s
+        elif mode_choice == 1:
+            s = os.path.join(shader_dir, Upscale_CNN_M_x2_Denoise)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, Auto_Downscale_Pre_x4)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, DarkLines_VeryFast)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, ThinLines_VeryFast)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, Upscale_CNN_M_x2_Deblur)
+            return s
+        elif mode_choice == 2:
+            s = os.path.join(shader_dir, Upscale_CNN_M_x2_Denoise)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, Auto_Downscale_Pre_x4)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, Deblur_DoG)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, DarkLines_VeryFast)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, ThinLines_VeryFast)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, Upscale_CNN_M_x2_Deblur)
+            return s
+    # medium
+    elif quality_choice == 1:
+        if mode_choice == 0:
+            s = os.path.join(shader_dir, Upscale_CNN_L_x2_Denoise)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, Auto_Downscale_Pre_x4)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, Upscale_CNN_L_x2_Deblur)
+            return s
+        elif mode_choice == 1:
+            s = os.path.join(shader_dir, Upscale_CNN_L_x2_Denoise)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, Auto_Downscale_Pre_x4)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, DarkLines_Fast)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, ThinLines_Fast)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, Upscale_CNN_L_x2_Deblur)
+            return s
+        elif mode_choice == 2:
+            s = os.path.join(shader_dir, Upscale_CNN_L_x2_Denoise)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, Auto_Downscale_Pre_x4)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, Deblur_DoG)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, DarkLines_Fast)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, ThinLines_Fast)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, Upscale_CNN_L_x2_Deblur)
+            return s
+    #eat your gpu
+    elif quality_choice == 2:
+        if mode_choice == 0:
+            s = os.path.join(shader_dir, Upscale_CNN_UL_x2_Denoise)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, Auto_Downscale_Pre_x4)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, Upscale_CNN_UL_x2_Deblur)
+            return s
+        elif mode_choice == 1:
+            s = os.path.join(shader_dir, Upscale_CNN_UL_x2_Denoise)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, Auto_Downscale_Pre_x4)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, DarkLines_HQ)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, ThinLines_HQ)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, Upscale_CNN_UL_x2_Deblur)
+            return s
+        elif mode_choice == 2:
+            s = os.path.join(shader_dir, Upscale_CNN_UL_x2_Denoise)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, Auto_Downscale_Pre_x4)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, Deblur_DoG)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, DarkLines_HQ)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, ThinLines_HQ)
+            s = s + ":"
+            s = s + os.path.join(shader_dir, Upscale_CNN_UL_x2_Deblur)
+            return s
 
 def shader(fn, width, height, shader, ten_bit, outname):
     clear()

@@ -11,7 +11,7 @@ from splitter import split_by_seconds, get_video_length
 credz()
 
 if not is_tool("mkvextract"):
-    print("mkvnixtool not installed. Please install them")
+    print("mkvnixtool not installed. Please install it")
     sys.exit(-3)
 if not is_tool("ffmpeg"):
     print("ffmpeg is not installed. Please install")

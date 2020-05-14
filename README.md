@@ -1,7 +1,7 @@
 ![Logo of the project](demo.gif)
 
 # Anime4K-PyWrapper
-> Wrapper around [Anime4K](https://github.com/bloc97/Anime4K)
+> Wrapper for [Anime4K](https://github.com/bloc97/Anime4K)
 
 Makes it easy to encode a Anime using the MPV shaders with predefined encoding profiles!
 
@@ -61,6 +61,16 @@ python3 Anime4K.py -m mux -i x265_10bit.mkv -o input_upscaled_with_audio_and_sub
 python3 Anime4K.py --help
 ```
 
+## **[Optional]** Encoding ffmpeg progressbar
+To get a overview of your current encoding ffmpeg of ffmpeg you may install the [ffmpeg-progressbar-cli](https://github.com/sidneys/ffmpeg-progressbar-cli)
+
+```
+npm install --global ffmpeg-progressbar-cli
+```
+
+*Don't worry the script will also work with normal ffmpeg.*
+
+
 ## Features
 
 * Encode Videos with Anime4K shaders easily
@@ -78,6 +88,10 @@ branch. Pull requests are warmly welcome.
 - Related projects:
   - [**Huge thanks!**] Anime4K: https://github.com/bloc97/Anime4K
   - video2x: https://github.com/k4yt3x/video2x
+
+- Thanks to:
+  - ffmpeg-progressbar-cli: https://github.com/sidneys/ffmpeg-progressbar-cli
+  - simple-term-menu: https://github.com/IngoHeimbach/simple-term-menu
 
 
 ## Licensing

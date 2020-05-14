@@ -15,3 +15,10 @@ Deblur_DoG = "Anime4K_3.0_Deblur_DoG.glsl"
 Upscale_CNN_M_x2_Deblur = "Anime4K_3.0_Upscale_CNN_M_x2_Deblur.glsl"
 Upscale_CNN_L_x2_Deblur = "Anime4K_3.0_Upscale_CNN_L_x2_Deblur.glsl"
 Upscale_CNN_UL_x2_Deblur = "Anime4K_3.0_Upscale_CNN_UL_x2_Deblur.glsl"
+
+Upscale_CNN_M_x2_Denoise = "Anime4K_3.0_Upscale_CNN_M_x2_Denoise.glsl"
+Upscale_CNN_L_x2_Denoise = "Anime4K_3.0_Upscale_CNN_L_x2_Denoise.glsl"
+Upscale_CNN_UL_x2_Denoise = "Anime4K_3.0_Upscale_CNN_UL_x2_Denoise.glsl"
+
+
+Auto_Downscale_Pre_x4 = "Anime4K_3.0_Auto_Downscale_Pre_x4.glsl"
