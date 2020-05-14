@@ -62,7 +62,7 @@ python3 Anime4K.py --help
 ```
 
 ## **[Optional]** Encoding ffmpeg progressbar
-To get a overview of your current encoding ffmpeg of ffmpeg you may install the [ffmpeg-progressbar-cli](https://github.com/sidneys/ffmpeg-progressbar-cli)
+To get a overview of your current encoding of ffmpeg you may install the [ffmpeg-progressbar-cli](https://github.com/sidneys/ffmpeg-progressbar-cli)
 
 ```
 npm install --global ffmpeg-progressbar-cli
