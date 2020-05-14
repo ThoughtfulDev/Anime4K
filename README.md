@@ -8,6 +8,7 @@ Makes it easy to encode a Anime using the MPV shaders with predefined encoding p
 ## Installing / Getting started
 
 What you need:
+- Linux (sorry its the fault of *mpv*)
 - Python 3.X
 - mpv > 0.32
 - ffmpeg
