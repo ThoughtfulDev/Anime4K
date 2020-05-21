@@ -1,5 +1,6 @@
 import subprocess, os, sys,glob
 from pymediainfo import MediaInfo
+from pymkv import MKVFile
 from utils import clear
 from simple_term_menu import TerminalMenu
 from consts import *
@@ -247,8 +248,22 @@ def lowerFHDMenu(shader_dir):
             s = s + os.path.join(shader_dir, Upscale_CNN_UL_x2_Deblur)
             return s
 
+def remove_audio_and_subs(fn):
+    subprocess.call([
+        "mkvmerge",
+        "-o",
+        "temp.mkv",
+        "--no-subtitles",
+        "--no-audio",
+        fn
+    ])
+
 def shader(fn, width, height, shader, ten_bit, outname):
     clear()
+    remove_audio_and_subs(fn)
+    clear()
+    fn = "temp.mkv"
+    
     files = []
     if os.path.isdir(fn):   
         for file in glob.glob(os.path.join(fn, "*.mkv")):
@@ -270,7 +285,8 @@ def shader(fn, width, height, shader, ten_bit, outname):
     else:
         print("Cancel")
         sys.exit(-2)
-
+    os.remove(fn)
+    
 
 def gpu_shader(fn, width, height, shader, ten_bit, outname, files=[]):
     clear()
