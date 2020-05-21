@@ -13,6 +13,7 @@ What you need:
 - mpv > 0.32
 - ffmpeg
 - mkvnixtool
+- mediainfo
 - A dedicated GPU (no VM) [AMD/NVIDIA/Intel]
 
 **Installing the necessary python libs**
