@@ -24,7 +24,7 @@ pip3 install -r requirements.txt
 
 ### Initial Configuration
 
-Download the latest shaders from [here](https://github.com/bloc97/Anime4K/releases) also download the extra denoise shaders from [here](https://github.com/bloc97/Anime4K/tree/master/glsl/3.1/Denoise).
+Download the latest shaders (GLSL (v3.1 Stable)) from [here](https://github.com/bloc97/Anime4K/releases).
 Put them all into one folder for example called *shaders*
 
 ## Upscaling your first Anime!
