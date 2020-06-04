@@ -259,16 +259,15 @@ def remove_audio_and_subs(fn):
     ])
 
 def shader(fn, width, height, shader, ten_bit, outname):
-    clear()
-    remove_audio_and_subs(fn)
-    clear()
-    fn = "temp.mkv"
-    
+    clear()  
     files = []
     if os.path.isdir(fn):   
         for file in glob.glob(os.path.join(fn, "*.mkv")):
-            print(os.path.join(fn, file))
-            files.append(os.path.join(fn, file))
+            files.append(os.path.join(file))
+    else:
+        remove_audio_and_subs(fn)
+        fn = "temp.mkv"
+        clear()
 
 
     cg_menu = TerminalMenu(
@@ -281,11 +280,15 @@ def shader(fn, width, height, shader, ten_bit, outname):
     if cg_choice == 0:
         cpu_shader(fn, width, height, shader, ten_bit, outname, files=files)
     elif cg_choice == 1:
-        gpu_shader(fn, width, height, shader, ten_bit, outname)
+        gpu_shader(fn, width, height, shader, ten_bit, outname, files=files)
     else:
         print("Cancel")
         sys.exit(-2)
-    os.remove(fn)
+    
+    if os.path.isdir(fn):
+        os.remove("temp.mkv")
+    else:
+        os.remove(fn)
     
 
 def gpu_shader(fn, width, height, shader, ten_bit, outname, files=[]):
@@ -313,6 +316,7 @@ def gpu_shader(fn, width, height, shader, ten_bit, outname, files=[]):
     else:
         str_shaders = lowerFHDMenu(shader)
     
+    print("File: " + fn)
     print("Using the following shaders:")
     print(str_shaders)
     print("Encoder: NVENC HEVC")
@@ -341,10 +345,14 @@ def gpu_shader(fn, width, height, shader, ten_bit, outname, files=[]):
     else:
         i = 0
         for f in files:
+            remove_audio_and_subs(f)
+            clear()
+            name = f.split("/")
+            name = name[len(name) - 1]
             subprocess.call([
                 "mpv",
                 "--vf=format=" + format,
-                f,
+                "temp.mkv",
                 "--profile=gpu-hq",
                 "--scale=ewa_lanczossharp",
                 "--cscale=ewa_lanczossharp",
@@ -356,7 +364,7 @@ def gpu_shader(fn, width, height, shader, ten_bit, outname, files=[]):
                 "--ovc=hevc_nvenc",
                 '--ovcopts=rc=constqp:preset=1:profile=main10:rc-lookahead=32:qp=24',
                 '--no-audio',
-                '--o=' + os.path.join(outname, "shader_{0}.mkv".format(i))
+                '--o=' + os.path.join(outname, name)
             ])
             i = i + 1       
 
@@ -399,6 +407,7 @@ def cpu_shader(fn, width, height, shader, ten_bit, outname, files=[]):
     else:
         crf = 17
 
+    print("File: " + fn)
     print("Using the following shaders:")
     print(str_shaders)
     print("Encoding with preset: " +  x264_preset)
@@ -427,10 +436,14 @@ def cpu_shader(fn, width, height, shader, ten_bit, outname, files=[]):
     else:
         i = 0
         for f in files:
+            remove_audio_and_subs(f)
+            clear()
+            name = f.split("/")
+            name = name[len(name) - 1]
             subprocess.call([
                 "mpv",
                 "--vf=format=" + format,
-                f,
+                "temp.mkv",
                 "--profile=gpu-hq",
                 "--scale=ewa_lanczossharp",
                 "--cscale=ewa_lanczossharp",
@@ -442,7 +455,7 @@ def cpu_shader(fn, width, height, shader, ten_bit, outname, files=[]):
                 "--ovc=libx264",
                 '--ovcopts=preset=' + x264_preset + ':level=6.1:crf=' + str(crf) + ':aq-mode=3:psy-rd=1.0:bf=8',
                 '--no-audio',
-                '--o=' + os.path.join(outname, "shader_{0}.mkv".format(i))
+                '--o=' + os.path.join(outname, name)
             ])  
             i = i + 1      
 
