@@ -1,6 +1,6 @@
-import subprocess
+import subprocess, os, glob
 from simple_term_menu import TerminalMenu
-from utils import is_tool
+from utils import is_tool, clear
 
 
 
@@ -36,33 +36,73 @@ def encode_to_hevc(fn, out):
     else:
         binary = "ffmpeg"
 
-    cmd = [
-    binary,
-    "-hide_banner",
-    "-i",
-    fn,
-    "-c:v",
-    "libx265",
-    "-profile:v",
-    "main10",
-    "-pix_fmt",
-    "yuv420p10le",
-    "-preset",
-    "slow",
-    "-x265-params",
-    param_line,
-    "-map",
-    "0:v:0",
-    "-f",
-    "matroska",
-    '-vf',
-    'scale=out_color_matrix=bt709',
-    '-color_primaries',
-    'bt709',
-    '-color_trc',
-    'bt709',
-    '-colorspace',
-    'bt709',
-    out
-    ]  
-    subprocess.call(cmd)
+    files = []
+    if os.path.isdir(fn):   
+        for file in glob.glob(os.path.join(fn, "*.mkv")):
+            files.append(os.path.join(file))
+    if len(files) == 0:
+        cmd = [
+        binary,
+        "-hide_banner",
+        "-i",
+        fn,
+        "-c:v",
+        "libx265",
+        "-profile:v",
+        "main10",
+        "-pix_fmt",
+        "yuv420p10le",
+        "-preset",
+        "slow",
+        "-x265-params",
+        param_line,
+        "-map",
+        "0:v:0",
+        "-f",
+        "matroska",
+        '-vf',
+        'scale=out_color_matrix=bt709',
+        '-color_primaries',
+        'bt709',
+        '-color_trc',
+        'bt709',
+        '-colorspace',
+        'bt709',
+        out
+        ]  
+        subprocess.call(cmd)
+    else:
+        for f in files:
+            clear()
+            name = f.split("/")
+            name = name[len(name) - 1]
+            cmd = [
+            binary,
+            "-hide_banner",
+            "-i",
+            f,
+            "-c:v",
+            "libx265",
+            "-profile:v",
+            "main10",
+            "-pix_fmt",
+            "yuv420p10le",
+            "-preset",
+            "slow",
+            "-x265-params",
+            param_line,
+            "-map",
+            "0:v:0",
+            "-f",
+            "matroska",
+            '-vf',
+            'scale=out_color_matrix=bt709',
+            '-color_primaries',
+            'bt709',
+            '-color_trc',
+            'bt709',
+            '-colorspace',
+            'bt709',
+            os.path.join(out, name)
+            ]  
+            subprocess.call(cmd)        
