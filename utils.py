@@ -40,6 +40,7 @@ language_mapping = {
     "jp": "Japanese",
     "jap": "Japanese",
     "jpn": "Japanese",
+    "ger": "German",
 }
 
 def clear():
