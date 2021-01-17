@@ -23,6 +23,8 @@ def langToShort(lang):
         return "jpn"
     elif lang == 'German':
         return "ger"
+    elif lang == 'Korean':
+        return "kor"
     else:
         return "und"
 
@@ -35,6 +37,8 @@ def shortToLong(lang):
         return "French"
     elif lang == "ger":
         return "German"
+    elif lang == "kor":
+        return "Korean"
     else:
         return "Unknown"
 
@@ -45,6 +49,7 @@ language_mapping = {
     "jap": "Japanese",
     "jpn": "Japanese",
     "ger": "German",
+    "kor": "Korean",
 }
 
 def clear():
