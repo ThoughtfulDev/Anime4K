@@ -40,6 +40,7 @@ def mux(fn, out):
     addAudio(mkv, "FLAC")
     addAudio(mkv, "TrueHD Atmos")
     addAudio(mkv, "AC-3")
+    addAudio(mkv, "DTS-HD Master Audio")
 
     addSubs(mkv, "sup")
     addSubs(mkv, "srt")
@@ -57,6 +58,7 @@ def mux(fn, out):
     delete_by_extension("FLAC")
     delete_by_extension("TrueHD Atmos")
     delete_by_extension("AC-3")
+    delete_by_extension("DTS-HD Master Audio")
 
     delete_by_extension("sup")
     delete_by_extension("srt")

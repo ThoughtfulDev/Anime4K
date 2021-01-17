@@ -21,6 +21,8 @@ def langToShort(lang):
         return "eng"
     elif lang == 'Japanese':
         return "jpn"
+    elif lang == 'German':
+        return "ger"
     else:
         return "und"
 
@@ -31,6 +33,8 @@ def shortToLong(lang):
         return "Japanese"
     elif lang == "fra":
         return "French"
+    elif lang == "ger":
+        return "German"
     else:
         return "Unknown"
 
