@@ -12,8 +12,8 @@ What you need:
 - Python 3.X
 - mpv > 0.32
 - ffmpeg
-- mkvnixtool
-- mediainfo
+- mkvnixtool (e.g mkvtoolnix on Ubuntu)
+- mediainfo (e.g libmediainfo-dev mediainfo on Ubuntu)
 - A dedicated GPU (no VM) [AMD/NVIDIA/Intel]
 
 **Installing the necessary python libs**
