@@ -338,7 +338,7 @@ def gpu_shader(fn, width, height, shader, ten_bit, outname, files=[]):
             '--vf=gpu=w=' + str(width) + ':h=' + str(height),
             "--glsl-shaders=" + str_shaders,
             "--ovc=hevc_nvenc",
-            '--ovcopts=rc=constqp:preset=1:profile=main10:rc-lookahead=32:qp=24',
+            '--ovcopts=rc=constqp,preset=1,profile=main10,rc-lookahead=32,qp=24',
             '--no-audio',
             '--o=' + outname
         ])
@@ -362,7 +362,7 @@ def gpu_shader(fn, width, height, shader, ten_bit, outname, files=[]):
                 '--vf=gpu=w=' + str(width) + ':h=' + str(height),
                 "--glsl-shaders=" + str_shaders,
                 "--ovc=hevc_nvenc",
-                '--ovcopts=rc=constqp:preset=1:profile=main10:rc-lookahead=32:qp=24',
+                '--ovcopts=rc=constqp,preset=1,profile=main10,rc-lookahead=32,qp=24',
                 '--no-audio',
                 '--o=' + os.path.join(outname, name)
             ])
@@ -429,7 +429,7 @@ def cpu_shader(fn, width, height, shader, ten_bit, outname, files=[]):
             '--vf=gpu=w=' + str(width) + ':h=' + str(height),
             "--glsl-shaders=" + str_shaders,
             "--ovc=libx264",
-            '--ovcopts=preset=' + x264_preset + ':level=6.1:crf=' + str(crf) + ':aq-mode=3:psy-rd=1.0:bf=6',
+            '--ovcopts=preset=' + x264_preset + ',level=6.1,crf=' + str(crf) + ',aq-mode=3,psy-rd=1.0,bf=6',
             '--no-audio',
             '--o=' + outname
         ])
@@ -453,7 +453,7 @@ def cpu_shader(fn, width, height, shader, ten_bit, outname, files=[]):
                 '--vf=gpu=w=' + str(width) + ':h=' + str(height),
                 "--glsl-shaders=" + str_shaders,
                 "--ovc=libx264",
-                '--ovcopts=preset=' + x264_preset + ':level=6.1:crf=' + str(crf) + ':aq-mode=3:psy-rd=1.0:bf=8',
+                '--ovcopts=preset=' + x264_preset + ',level=6.1,crf=' + str(crf) + ',aq-mode=3,psy-rd=1.0,bf=8',
                 '--no-audio',
                 '--o=' + os.path.join(outname, name)
             ])  
