@@ -4,18 +4,21 @@ from utils import is_tool, clear
 
 
 
-def encode_to_hevc(fn, out):
+def encode_to_hevc(fn, out, opts=None):
     param_line = "crf=18.0:limit-sao=1:bframes=8:aq-mode=3:psy-rd=1.0"
+    
+    if opts == None:
+        detail_menu = TerminalMenu([
+            "(Recommended if you dont know) One Setting to rule them all",
+            "(e.g Your Name) Flat, slow anime (slice of life, everything is well lit)",
+            "(e.g Kimetsu no Yaiba) Some dark scene, some battle scene (shonen, historical, etc.)",
+            "(Rarely used) [TV Series] Movie-tier dark scene, complex grain/detail",
+            "(Rarely used) [Movie] Movie-tier dark scene, complex grain/detail",
+        ], title="Choose the encode options")
 
-    detail_menu = TerminalMenu([
-        "(Recommended if you dont know) One Setting to rule them all",
-        "(e.g Your Name) Flat, slow anime (slice of life, everything is well lit)",
-        "(e.g Kimetsu no Yaiba) Some dark scene, some battle scene (shonen, historical, etc.)",
-        "(Rarely used) [TV Series] Movie-tier dark scene, complex grain/detail",
-        "(Rarely used) [Movie] Movie-tier dark scene, complex grain/detail",
-    ], title="Choose the encode options")
-
-    choice = detail_menu.show()
+        choice = detail_menu.show()
+    else:
+        choice = int(opts['encode']['mode'])
     # Flat, slow anime (slice of life, everything is well lit)
     if choice == 1:
         param_line = "crf=19.0:bframes=8:aq-mode=3:psy-rd=1:aq-strength=0.8:deblock=1,1"

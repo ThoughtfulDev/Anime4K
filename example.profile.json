@@ -1,0 +1,22 @@
+{
+    "shader": {
+        "type": 0,
+        "FHD": {
+            "mode": 0,
+            "shader_quality": 0,
+            "bilateral_denoise_mode": 0,
+            "x264_profile": 0,
+            "encode_lossless": 0
+        },
+        "LFHD": {
+            "mode": 0,
+            "shader_quality": 0,
+            "x264_profile": 0,
+            "encode_lossless": 0   
+        }
+    },
+    "encode": {
+        "profile": 0
+    }
+
+}

@@ -1,3 +1,5 @@
 pymkv
 pymediainfo
 simple-term-menu
+PySimpleGUI
+pyinstaller

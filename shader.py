@@ -10,26 +10,32 @@ x264_mapping = [
 ]
 
 def FHDMenu(shader_dir):
-    mode_menu = TerminalMenu(
-        ["Remain as faithful to the original while enhancing details", 
-        "Improve perceptual quality", 
-        "Improve perceptual quality + deblur"
-        ],
-        title="Choose your Option for Full HD Videos"
-    )
-    mode_choice = mode_menu.show()
+    if not IS_GUI:
+        mode_menu = TerminalMenu(
+            ["Remain as faithful to the original while enhancing details", 
+            "Improve perceptual quality", 
+            "Improve perceptual quality + deblur"
+            ],
+            title="Choose your Option for Full HD Videos"
+        )
+        mode_choice = mode_menu.show()
 
 
-    quality_menu = TerminalMenu(
-        [
-            "Fast", "Medium", "Make my GPU hurt"
-        ],
-        title="Choose a Quality preset for encoding. This will influence the shaders used but no the encoding preset itself."
-    )
-    quality_choice = quality_menu.show()
+        quality_menu = TerminalMenu(
+            [
+                "Fast", "Medium", "Make my GPU hurt"
+            ],
+            title="Choose a Quality preset for encoding. This will influence the shaders used but no the encoding preset itself."
+        )
+        quality_choice = quality_menu.show()
 
-    bilateral_menu = TerminalMenu(["Mode (not so heavy)", "[Recommended] Median (heavier)"], title="Please choose your Bilateral Denoise Mode")
-    bilateral_choice = bilateral_menu.show()
+        bilateral_menu = TerminalMenu(["Mode (not so heavy)", "[Recommended] Median (heavier)"], title="Please choose your Bilateral Denoise Mode")
+        bilateral_choice = bilateral_menu.show()
+    else:
+        mode_choice = GUI_OPTS['upscale']['shader_mode_choice']
+        quality_choice = GUI_OPTS['upscale']['shader_quality_choice']
+        bilateral_choice = GUI_OPTS['upscale']['shader_bilateral_choice']
+
     if bilateral_choice == 0:
         Denoise_Bilateral = Denoise_Bilateral_Mode
     elif bilateral_choice == 1:
@@ -125,23 +131,27 @@ def FHDMenu(shader_dir):
             return s
 
 def lowerFHDMenu(shader_dir):
-    mode_menu = TerminalMenu(
-        ["Remain as faithful to the original while enhancing details", 
-        "Improve perceptual quality", 
-        "Improve perceptual quality + deblur"
-        ],
-        title="Choose your Option for 480/720p Videos"
-    )
-    mode_choice = mode_menu.show()
+    if not IS_GUI:
+        mode_menu = TerminalMenu(
+            ["Remain as faithful to the original while enhancing details", 
+            "Improve perceptual quality", 
+            "Improve perceptual quality + deblur"
+            ],
+            title="Choose your Option for 480/720p Videos"
+        )
+        mode_choice = mode_menu.show()
 
 
-    quality_menu = TerminalMenu(
-        [
-            "Fast", "Medium", "Make my GPU hurt"
-        ],
-        title="Choose a Quality preset for encoding. This will influence the shaders used but no the encoding preset itself."
-    )
-    quality_choice = quality_menu.show()
+        quality_menu = TerminalMenu(
+            [
+                "Fast", "Medium", "Make my GPU hurt"
+            ],
+            title="Choose a Quality preset for encoding. This will influence the shaders used but no the encoding preset itself."
+        )
+        quality_choice = quality_menu.show()
+    else:
+        mode_choice = GUI_OPTS['upscale']['shader_mode_choice']
+        quality_choice = GUI_OPTS['upscale']['shader_quality_choice']
 
 
     if mode_choice == None or quality_choice == None:
@@ -258,7 +268,11 @@ def remove_audio_and_subs(fn):
         fn
     ])
 
-def shader(fn, width, height, shader, ten_bit, outname):
+def shader(fn, width, height, shader, ten_bit, outname, gui=False, opts={}):
+    global IS_GUI, GUI_OPTS
+    IS_GUI=gui
+    GUI_OPTS=opts
+
     clear()  
     files = []
     if os.path.isdir(fn):   
@@ -270,13 +284,17 @@ def shader(fn, width, height, shader, ten_bit, outname):
         clear()
 
 
-    cg_menu = TerminalMenu(
-        ["CPU (only x264 4:4:4) - needs to be converted to x265 later with ffmpeg", 
-        "GPU (NVENC HEVC/X265 - may result in lower quality than CPU) - NVIDIA ONLY - no conversation necessary" 
-        ],
-        title="Choose what to use when encoding after applying shaders."
-    )
-    cg_choice = cg_menu.show()
+    if not IS_GUI:
+        cg_menu = TerminalMenu(
+            ["CPU (only x264 4:4:4) - needs to be converted to x265 later with ffmpeg", 
+            "GPU (NVENC HEVC/X265 - may result in lower quality than CPU) - NVIDIA ONLY - no conversation necessary" 
+            ],
+            title="Choose what to use when encoding after applying shaders."
+        )
+        cg_choice = cg_menu.show()
+    else:
+        cg_choice = GUI_OPTS["upscale"]["cg_choice"]
+    
     if cg_choice == 0:
         cpu_shader(fn, width, height, shader, ten_bit, outname, files=files)
     elif cg_choice == 1:
@@ -316,6 +334,7 @@ def gpu_shader(fn, width, height, shader, ten_bit, outname, files=[]):
     else:
         str_shaders = lowerFHDMenu(shader)
     
+
     print("File: " + fn)
     print("Using the following shaders:")
     print(str_shaders)
@@ -397,11 +416,15 @@ def cpu_shader(fn, width, height, shader, ten_bit, outname, files=[]):
     
 
     
-    
-    x264_preset = x264_mapping[TerminalMenu(x264_mapping, title="Choose your x264 preset:").show()]
+    if not IS_GUI:
+        x264_preset = x264_mapping[TerminalMenu(x264_mapping, title="Choose your x264 preset:").show()]
 
-    lossless_menu = TerminalMenu(["No", "Yes"], title="Do you want to encode lossless? (Huge filesize)")
-    lossless_choice = lossless_menu.show()
+        lossless_menu = TerminalMenu(["No", "Yes"], title="Do you want to encode lossless? (Huge filesize)")
+        lossless_choice = lossless_menu.show()
+    else:
+        x264_preset = GUI_OPTS['upscale']['x264_preset']
+        lossless_choice = GUI_OPTS['upscale']['x264_lossless']
+
     if lossless_choice == 1:
         crf = 0
     else:
@@ -456,7 +479,7 @@ def cpu_shader(fn, width, height, shader, ten_bit, outname, files=[]):
                 '--ovcopts=preset=' + x264_preset + ',level=6.1,crf=' + str(crf) + ',aq-mode=3,psy-rd=1.0,bf=8',
                 '--no-audio',
                 '--o=' + os.path.join(outname, name)
-            ])  
+            ]) 
             i = i + 1      
 
     
